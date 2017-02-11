@@ -1,0 +1,130 @@
+<net.rptools.maptool.model.Token>
+  <id>
+    <baGUID>{{ t.id }}{# AAAAAO+FMi6gGwAAAAAAAA== #}</baGUID>
+  </id>
+  <beingImpersonated>false</beingImpersonated>
+  <!-- Let's try just leaving this blank for now.
+  <exposedAreaGUID>
+    <baGUID>AAAAAHsyfS2oBwAAAAAAAA==</baGUID>
+  </exposedAreaGUID>
+  -->
+  <imageAssetMap>{# not sure how these work yet #}
+    <entry>
+      <null/>
+      <net.rptools.lib.MD5Key>
+        <id>{{ t.image.md5 }}{# 7dbe318339ba683b61e8c7e297ffcf0b #}</id>
+      </net.rptools.lib.MD5Key>
+    </entry>
+  </imageAssetMap>
+  {# bunch of size-related options, not sure what all of them mean #}
+  <x>296</x>
+  <y>453</y>
+  <z>15</z>
+  <anchorX>1</anchorX> {# or these #}
+  <anchorY>0</anchorY>
+  <sizeScale>1.0</sizeScale> 
+  <lastX>0</lastX>
+  <lastY>0</lastY>
+  <snapToScale>true</snapToScale>
+  <width>738</width>
+  <height>945</height>
+  <scaleX>1.0</scaleX>
+  <scaleY>1.0</scaleY>
+  <sizeMap>
+    <entry>
+      <java-class>net.rptools.maptool.model.SquareGrid</java-class>
+      {# not sure about this yet either #}
+      <net.rptools.maptool.model.GUID>
+        <baGUID>fwABAc9lFSoFAAAAKgABAQ==</baGUID>
+      </net.rptools.maptool.model.GUID>
+    </entry>
+  </sizeMap>
+  <snapToGrid>true</snapToGrid>
+  <isVisible>{{ t.is_visible }}</isVisible>
+  <visibleOnlyToOwner>false</visibleOnlyToOwner>
+  <name>{{ t.name }}</name>
+  <ownerList>
+    {% for owner in t.owners %}
+      <string>{{ owner }}</string>
+    {% endfor %}
+  </ownerList>
+  <ownerType>0</ownerType> {# not sure what this means #}
+  <tokenShape>SQUARE</tokenShape>
+  <tokenType>{% if t.PC %}PC{% else %}NPC{% endif %}</tokenType>
+  <layer>{{ t.layer }}</layer>
+  <propertyType>Basic</propertyType>
+  <facing>-90</facing>
+  <haloColorValue>{{ t.halo_color }}</haloColorValue> {# what color scheme is this? #}
+  <isFlippedX>false</isFlippedX>
+  <isFlippedY>false</isFlippedY>
+  {% if t.portrait_image is not none %}
+    <portraitImage>
+      <id>{{ t.portrait_image }}</id>
+    </portraitImage>
+  {% endif %}
+  <lightSourceList />
+  <sightType>{{ t.sight_type }}</sightType>
+  <hasSight>true</hasSight>
+  <label>{{ t.label }}</label>
+  <notes>{{ t.notes }}</notes>
+  <gmNotes>{{ t.gm_notes }}</gmNotes>
+  <gmName>{{ t.gm_name }}</gmName>
+  <state>
+    {% for name, (type, value) in t.states.items() %}
+      <entry>
+        <string>{{ name }}</string>
+        <{{ type }}>{{ value }}</{{ type }}>
+      </entry>
+    {% endfor %}
+  </state>
+  <propertyMapCI>
+    <store>
+      {% for name, value in t.properties.items() %}
+        <entry>
+          <string>{{ name|lower }}</string>
+          <net.rptools.CaseInsensitiveHashMap_-KeyValue>
+            <key>{{ name }}</key>
+            {% if value is not none %}
+              <value class="string">{{ value }}</value>
+            {% endif %}
+            <outer-class reference="../../../.."/>
+          </net.rptools.CaseInsensitiveHashMap_-KeyValue>
+        </entry>
+      {% endfor %}
+    </store>
+  </propertyMapCI>
+  <macroPropertiesMap>
+    {% for mac in t.macros %}
+      <entry>
+        <int>{{ loop.index }}</int>
+        <net.rptools.maptool.model.MacroButtonProperties>
+          <saveLocation>Token</saveLocation>
+          <index>{{ loop.index }}</index>
+          <colorKey>{{ mac.color }}</colorKey>
+          <hotKey>{{ mac.hotkey }}</hotKey>
+          <command>{{ mac.command }}</command>
+          <label>{{ mac.label }}</label>
+          <group>{{ mac.group }}</group>
+          <sortby>{{ mac.sortby }}</sortby>
+          <autoExecute>true</autoExecute>
+          <includeLabel>false</includeLabel>
+          <applyToTokens>false</applyToTokens>
+          <fontColorKey>{{ mac.font_color }}</fontColorKey>
+          <fontSize>{{ mac.font_size }}</fontSize>
+          <minWidth></minWidth>
+          <maxWidth></maxWidth>
+          <allowPlayerEdits>true</allowPlayerEdits>
+          <toolTip>{{ mac.tooltip }}</toolTip>
+          <commonMacro>false</commonMacro>
+          <compareGroup>true</compareGroup>
+          <compareSortPrefix>true</compareSortPrefix>
+          <compareCommand>true</compareCommand>
+          <compareIncludeLabel>true</compareIncludeLabel>
+          <compareAutoExecute>true</compareAutoExecute>
+          <compareApplyToSelectedTokens>true</compareApplyToSelectedTokens>
+        </net.rptools.maptool.model.MacroButtonProperties>
+      </entry>
+    {% endfor %}
+  </macroPropertiesMap>
+  <speechMap/>
+</net.rptools.maptool.model.Token>
