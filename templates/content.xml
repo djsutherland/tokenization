@@ -8,7 +8,7 @@
     <baGUID>AAAAAHsyfS2oBwAAAAAAAA==</baGUID>
   </exposedAreaGUID>
   -->
-  <imageAssetMap>{# not sure how these work yet #}
+  <imageAssetMap>
     <entry>
       <null/>
       <net.rptools.lib.MD5Key>
@@ -16,7 +16,7 @@
       </net.rptools.lib.MD5Key>
     </entry>
   </imageAssetMap>
-  {# bunch of size-related options, not sure what all of them mean #}
+  {# positioning on the map, not actually used on import #}
   <x>296</x>
   <y>453</y>
   <z>15</z>
@@ -33,9 +33,8 @@
   <sizeMap>
     <entry>
       <java-class>net.rptools.maptool.model.SquareGrid</java-class>
-      {# not sure about this yet either #}
       <net.rptools.maptool.model.GUID>
-        <baGUID>fwABAc9lFSoFAAAAKgABAQ==</baGUID>
+        <baGUID>{{ t.size_id }}</baGUID>
       </net.rptools.maptool.model.GUID>
     </entry>
   </sizeMap>

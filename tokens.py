@@ -68,6 +68,18 @@ class Macro(object):
 ################################################################################
 ### Token class
 
+size_map = {
+    'Fine': 'fwABAc1lFSoBAAAAKgABAQ==',
+    'Diminutive': 'fwABAc1lFSoCAAAAKgABAQ==',
+    'Tiny': 'fwABAc5lFSoDAAAAKgABAA==',
+    'Small': 'fwABAc5lFSoEAAAAKgABAA==',
+    'Medium': 'fwABAc9lFSoFAAAAKgABAQ==',
+    'Large': 'fwABAdBlFSoGAAAAKgABAA==',
+    'Huge': 'fwABAdBlFSoHAAAAKgABAA==',
+    'Gargantuan': 'fwABAdFlFSoIAAAAKgABAQ==',
+    'Colossal': 'fwABAeFlFSoJAAAAKgABAQ==',
+}
+
 token_defaults = {
     'is_visible': 'true',
     'name': 'Default Token',
@@ -100,11 +112,13 @@ base_states['Health'] = ('big-decimal', '1')
     # 'Perception', 'SenseMotive', 'Initiative',
     # 'AbilityPool', 'AbilityPoolMax', 'Pool1Name',
     # 'Pool2', 'Pool2Max', 'Pool2Name',
-base_properties = {k: None for k in props_nulldefault}
-base_properties['HasInit'] = 1
-base_properties['Fortitude'] = '{ConMod}'
-base_properties['Reflex'] = '{DexMod}'
-base_properties['Will'] = '{WisMod}'
+base_properties = {
+    'HasInit': 1,
+    'Fortitude': '{ConMod}',
+    'Reflex': '{DexMod}',
+    'Will': '{WisMod}',
+    'HP': '{MaxHP}',
+}
 
 base_macros = [
     Macro(label='fort', group='saves', command='Fort: [d20+Fortitude]'),
@@ -149,7 +163,7 @@ with open('templates/content.xml') as f:
     content_template = jinja2.Template(f.read())
 
 class Token(object):
-    def __init__(self, image, portrait_image=None,
+    def __init__(self, image, portrait_image=None, size='Medium',
                  states=None, properties=None, macros=None,
                  default_states=True, default_properties=True,
                  default_macros=True, **kwargs):
@@ -160,6 +174,8 @@ class Token(object):
         self.portrait_image = portrait_image
 
         self.id = base64.encodestring(uuid.uuid4().bytes).strip()
+
+        self.size_id = size_map[size]
 
         for k, v in iteritems(token_defaults):
             setattr(self, k, v)
