@@ -87,23 +87,19 @@ _toggles = ("Other Other2 Other3 Other4 Enlarged Dead Incapacitated "
 base_states = {k: ('boolean', 'false') for k in _toggles}
 base_states['Health'] = ('big-decimal', '1')
 
-props_nulldefault = [
-    'HP', 'MaxHP', 'Nonlethal', 'TempHP',
-    'BAB', 'Level',
-    'Armor', 'ACAlways', 'DexDodge',
-    'Description', 'HasInit', 'Elevation',
-    'ACP', 'CMB', 'CMD',
-    'Strength', 'Dexterity', 'Constitution',
-    'Intelligence', 'Wisdom', 'Charisma',
-    'Fortitude', 'Reflex', 'Will',
-    'Perception', 'SenseMotive', 'Initiative',
-    'AbilityPool', 'AbilityPoolMax', 'Pool1Name',
-    'Pool2', 'Pool2Max', 'Pool2Name',
-    # things that are just campaign defaults and shouldn't get values ever
-    'AC', 'FlatfootedAC', 'TouchAC', 'AC/Flat/Touch', 'HP/MaxHP/Nonlethal/Temp',
-    'CurrentHitPoints', 'SizeMod', 'AbilityDisplay',
-    'StrMod', 'DexMod', 'ConMod', 'IntMod', 'WisMod', 'ChaMod',
-]
+# No need to explicitly store properties that will just be set to the default.
+# Here's some you might want to set, though:
+    # 'HP', 'MaxHP', 'Nonlethal', 'TempHP',
+    # 'BAB', 'Level',
+    # 'Armor', 'ACAlways', 'DexDodge',
+    # 'Description', 'HasInit', 'Elevation',
+    # 'ACP', 'CMB', 'CMD',
+    # 'Strength', 'Dexterity', 'Constitution',
+    # 'Intelligence', 'Wisdom', 'Charisma',
+    # 'Fortitude', 'Reflex', 'Will',
+    # 'Perception', 'SenseMotive', 'Initiative',
+    # 'AbilityPool', 'AbilityPoolMax', 'Pool1Name',
+    # 'Pool2', 'Pool2Max', 'Pool2Name',
 base_properties = {k: None for k in props_nulldefault}
 base_properties['HasInit'] = 1
 base_properties['Fortitude'] = '{ConMod}'
@@ -154,6 +150,7 @@ with open('templates/content.xml') as f:
 
 class Token(object):
     def __init__(self, image, portrait_image=None,
+                 states=None, properties=None, macros=None,
                  default_states=True, default_properties=True,
                  default_macros=True, **kwargs):
         assert isinstance(image, Asset)
@@ -173,15 +170,23 @@ class Token(object):
         if default_states:
             for name, (typ, val) in iteritems(base_states):
                 self.states[name] = (typ, val)
+        if states:
+            for name, (typ, val) in iteritems(states):
+                self.states[name] = (typ, val)
 
         self.properties = {}
         if default_properties:
             for name, val in iteritems(base_properties):
                 self.properties[name] = val
+        if properties:
+            for name, val in iteritems(properties):
+                self.properties[name] = val
 
         self.macros = []
         if default_macros:
             self.macros.extend(base_macros)
+        if macros:
+            self.macros.extend(macros)
 
     def _add_asset(self, f, asset):
         f.writestr('assets/{}'.format(asset.md5), asset.asset_xml())
