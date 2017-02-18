@@ -14,7 +14,7 @@ from six import iteritems
 
 ################################################################################
 ### Asset class: manage images/etc stored with the token
-
+#test
 asset_template = '''
 <net.rptools.maptool.model.Asset>
   <id>
